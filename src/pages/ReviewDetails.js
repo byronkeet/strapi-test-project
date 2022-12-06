@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 // import useFetch from "../hooks/useFetch";
 import { useQuery, gql } from "@apollo/client";
+import ReactMarkdown from "react-markdown";
 
 const REVIEW = gql`
 query GetReview($id: ID!) {
@@ -33,7 +34,6 @@ const ReviewDetails = () => {
 
 	if (loading) return <p>Loading...</p>
 	if (error) return <p>Error :(</p>
-	console.log(data.review.data.attributes)
 
 	return (
 		<div className='review-card'>
@@ -44,7 +44,7 @@ const ReviewDetails = () => {
 				<small key={c.id}>{c.attributes.name}</small>
 			))}
 			
-			<p>{data.review.data.attributes.body}</p>
+			<ReactMarkdown>{data.review.data.attributes.body}</ReactMarkdown>
 		</div>
 	)
 }
