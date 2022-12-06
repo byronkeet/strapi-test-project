@@ -11,10 +11,18 @@ query GetReview($id: ID!) {
 		  title,
 		  rating,
 		  body
+		  categories {
+			data {
+				id
+				attributes {
+					name
+				}
+			}
 		}
 	  }
 	}
   }
+}
 `;
 const ReviewDetails = () => {
 	const { id } = useParams();
@@ -25,17 +33,20 @@ const ReviewDetails = () => {
 
 	if (loading) return <p>Loading...</p>
 	if (error) return <p>Error :(</p>
+	console.log(data.review.data.attributes)
 
 	return (
 		<div className='review-card'>
 			<div className='rating'>{data.review.data.attributes.rating}</div>
 			<h2>{data.review.data.attributes.title}</h2>
 
-			<small>console list</small>
-
+			{data.review.data.attributes.categories.data.map(c => (
+				<small key={c.id}>{c.attributes.name}</small>
+			))}
+			
 			<p>{data.review.data.attributes.body}</p>
 		</div>
-)
+	)
 }
 
 export default ReviewDetails;
